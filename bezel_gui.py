@@ -2,10 +2,11 @@ from flask import Flask, render_template, request, send_file
 import os
 from PIL import Image
 
+# Initialize Flask app with correct folder paths
 app = Flask(
     __name__,
-    static_folder="static",  # Folder for static files (CSS/JS)
-    template_folder="templates"  # Folder for HTML templates
+    static_folder="app/static",  # Static files folder
+    template_folder="app/templates"  # HTML templates folder
 )
 
 # Bezel configurations
