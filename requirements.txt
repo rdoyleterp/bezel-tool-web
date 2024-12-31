@@ -1,4 +1,4 @@
-Flask==2.3.2           # Flask web framework
-Pillow==11.0.0        # For image processing
-Werkzeug==2.3.2        # Flask's underlying WSGI library
-gunicorn==21.2.0       # Production-ready server for deploying Flask apps
+Flask==2.3.2
+Pillow==11.0.0
+Werkzeug>=2.3.3
+gunicorn==21.2.0
