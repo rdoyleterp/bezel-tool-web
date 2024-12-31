@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bezel Tool</title>
+</head>
+<body>
+    <h1>Bezel Tool</h1>
+
+    <!-- Bezel Selection -->
+    <form id="upload-form" action="/process" method="post" enctype="multipart/form-data">
+        <label for="bezel">Select Bezel:</label>
+        <select id="bezel" name="bezel">
+            {% for bezel in bezels %}
+            <option value="{{ bezel }}">{{ bezel }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- File Upload -->
+        <label for="images">Upload Images:</label>
+        <input id="images" name="images" type="file" multiple>
+
+        <button type="submit">Process Images</button>
+    </form>
+
+    <!-- Output Section -->
+    <div id="output">
+        <h2>Processed Images</h2>
+        <ul id="processed-files">
+            <!-- Populated dynamically -->
+        </ul>
+    </div>
+
+    <script>
+        document.getElementById('upload-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const response = await fetch('/process', {
+                method: 'POST',
+                body: formData,
+            });
+
+            const result = await response.json();
+
+            if (result.error) {
+                alert('Error: ' + result.error);
+            } else {
+                const fileList = document.getElementById('processed-files');
+                fileList.innerHTML = ''; // Clear previous results
+                result.files.forEach(file => {
+                    const listItem = document.createElement('li');
+                    const downloadLink = document.createElement('a');
+                    downloadLink.href = `/download/${file}`;
+                    downloadLink.textContent = file;
+                    listItem.appendChild(downloadLink);
+                    fileList.appendChild(listItem);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
